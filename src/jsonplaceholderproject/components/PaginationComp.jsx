@@ -5,11 +5,11 @@ const PaginationComp = ({ setPageNum, clickNext, clickPrev }) => {
   const pagesLimit = 10;
   const [nums, setNums] = useState([1, 2, 3, 4, 5]);
   const [clicked, setClicked] = useState(false);
-  let newNums = [];
+  const [newNums, setnewNums] = useState([]);
 
   const handlePrev = () => {
     if (nums[0] === 1) return;
-    newNums = nums;
+    setnewNums(nums);
     newNums.pop();
     newNums.unshift(newNums[0] - 1);
     setClicked(!clicked);
@@ -18,7 +18,7 @@ const PaginationComp = ({ setPageNum, clickNext, clickPrev }) => {
 
   const handleNext = () => {
     if (nums[4] === 10) return;
-    newNums = nums;
+    setnewNums(nums);
     newNums.shift();
     newNums.push(newNums[3] + 1);
     setClicked(!clicked);
