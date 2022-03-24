@@ -37,7 +37,7 @@ const PaginationComp = ({ setPageNum, clickNext, clickPrev }) => {
     setPageNum(10);
   };
 
-  useEffect(() => newNums.length && setNums(newNums), [clicked]);
+  useEffect(() => newNums.length && setNums(newNums), [clicked, newNums]);
 
   return (
     <Pagination>
