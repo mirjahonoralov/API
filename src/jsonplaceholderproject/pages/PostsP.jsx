@@ -6,7 +6,13 @@ import useFetch from "../hooks/useFetch";
 
 const PostsP = () => {
   const [pageNum, setPageNum] = useState(1);
-  const [nums, setNums] = useState([1, 2, 3, 4, 5]);
+  const [nums, setNums] = useState([
+    { num: 1 },
+    { num: 2 },
+    { num: 3 },
+    { num: 4 },
+    { num: 5 },
+  ]);
   const clickNext = () => setPageNum(pageNum + 1);
   const clickPrev = () => setPageNum(pageNum - 1);
   const [posts, loading] = useFetch(`posts?_page=${pageNum}&_limit=${10}`);
@@ -22,6 +28,7 @@ const PostsP = () => {
           ))}
           <PaginationComp
             setPageNum={setPageNum}
+            pageNum={pageNum}
             clickNext={clickNext}
             clickPrev={clickPrev}
             nums={nums}

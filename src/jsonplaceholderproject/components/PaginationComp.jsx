@@ -12,32 +12,39 @@ const PaginationComp = ({
   const [newNums, setnewNums] = useState([]);
 
   const handlePrev = () => {
-    if (nums[0] === 1) return;
+    if (nums[0].num === 1) return;
     nums.pop();
-    nums.unshift(nums[0] - 1);
+    nums.unshift({ num: nums[0].num - 1 });
     setnewNums(nums);
     clickPrev();
   };
 
-  const handleNext = (e) => {
-    e.preventDefault();
-    if (nums[4] === 10) return;
+  const handleNext = () => {
+    if (nums[4].num === 10) return;
     nums.shift();
-    nums.push(nums[3] + 1);
+    nums.push({ num: nums[3].num + 1 });
     setnewNums(nums);
     clickNext();
   };
 
   const toFirst = () => {
-    setNums([1, 2, 3, 4, 5]);
+    setNums([{ num: 1 }, { num: 2 }, { num: 3 }, { num: 4 }, { num: 5 }]);
     setPageNum(1);
   };
 
   const toEnd = () => {
     let newNums = [];
-    for (let i = pagesLimit - 4; i <= 10; i++) newNums.push(i);
+    for (let i = pagesLimit - 4; i <= 10; i++) newNums.push({ num: i });
     setNums(newNums);
     setPageNum(10);
+  };
+
+  const handleClickNum = (num) => {
+    setPageNum(num.num);
+    let index = nums.indexOf(num);
+    nums = nums.map((num) => ({ ...num, clicked: false }));
+    nums.splice(index, 1, { num: num.num, clicked: true });
+    setNums([...nums]);
   };
 
   useEffect(() => newNums.length > 0 && setNums(newNums), [newNums, setNums]);
@@ -50,31 +57,15 @@ const PaginationComp = ({
       <PaginationItem>
         <PaginationLink previous onClick={() => handlePrev()} />
       </PaginationItem>
-      <PaginationItem>
-        <PaginationLink onClick={() => setPageNum(nums[0])}>
-          {nums[0]}
-        </PaginationLink>
-      </PaginationItem>
-      <PaginationItem>
-        <PaginationLink onClick={() => setPageNum(nums[1])}>
-          {nums[1]}
-        </PaginationLink>
-      </PaginationItem>
-      <PaginationItem>
-        <PaginationLink onClick={() => setPageNum(nums[2])}>
-          {nums[2]}
-        </PaginationLink>
-      </PaginationItem>
-      <PaginationItem>
-        <PaginationLink onClick={() => setPageNum(nums[3])}>
-          {nums[3]}
-        </PaginationLink>
-      </PaginationItem>
-      <PaginationItem>
-        <PaginationLink onClick={() => setPageNum(nums[4])}>
-          {nums[4]}
-        </PaginationLink>
-      </PaginationItem>
+      {nums.map((num, id) => {
+        return (
+          <PaginationItem key={id} active={num.clicked ? true : false}>
+            <PaginationLink onClick={() => handleClickNum(num)}>
+              {num.num}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      })}
       <PaginationItem>
         <PaginationLink next onClick={(e) => handleNext(e)} />
       </PaginationItem>
