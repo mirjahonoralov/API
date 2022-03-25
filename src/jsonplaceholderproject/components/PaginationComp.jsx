@@ -7,34 +7,48 @@ const PaginationComp = ({
   clickPrev,
   nums,
   setNums,
+  pageNum,
 }) => {
   const pagesLimit = 10;
   const [newNums, setnewNums] = useState([]);
 
   const handlePrev = () => {
-    if (nums[0].num === 1) return;
-    nums.pop();
-    nums.unshift({ num: nums[0].num - 1 });
+    if (nums[0].clicked === true) return;
+    if (nums[0].num === pageNum)
+      nums = nums.map((num) => ({ num: num.num - 1 }));
+    else nums = nums.map((num) => ({ num: num.num }));
+    let index = nums.findIndex((num) => num.num === pageNum);
+    nums[index - 1].clicked = true;
     setnewNums(nums);
     clickPrev();
   };
 
   const handleNext = () => {
-    if (nums[4].num === 10) return;
-    nums.shift();
-    nums.push({ num: nums[3].num + 1 });
+    if (nums[4].clicked === true) return;
+    if (nums[4].num === pageNum)
+      nums = nums.map((num) => ({ num: num.num + 1 }));
+    else nums = nums.map((num) => ({ num: num.num }));
+    let index = nums.findIndex((num) => num.num === pageNum);
+    nums[index + 1].clicked = true;
     setnewNums(nums);
     clickNext();
   };
 
   const toFirst = () => {
-    setNums([{ num: 1 }, { num: 2 }, { num: 3 }, { num: 4 }, { num: 5 }]);
+    setNums([
+      { num: 1, clicked: true },
+      { num: 2 },
+      { num: 3 },
+      { num: 4 },
+      { num: 5 },
+    ]);
     setPageNum(1);
   };
 
   const toEnd = () => {
     let newNums = [];
-    for (let i = pagesLimit - 4; i <= 10; i++) newNums.push({ num: i });
+    for (let i = pagesLimit - 4; i <= 9; i++) newNums.push({ num: i });
+    newNums.push({ num: 10, clicked: true });
     setNums(newNums);
     setPageNum(10);
   };

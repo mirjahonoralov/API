@@ -7,7 +7,7 @@ import useFetch from "../hooks/useFetch";
 const PostsP = () => {
   const [pageNum, setPageNum] = useState(1);
   const [nums, setNums] = useState([
-    { num: 1 },
+    { num: 1, clicked: true },
     { num: 2 },
     { num: 3 },
     { num: 4 },
