@@ -13,7 +13,7 @@ const PaginationComp = ({
   const [newNums, setnewNums] = useState([]);
 
   const handlePrev = () => {
-    if (nums[0].clicked === true) return;
+    if (nums[0].num === 1 && nums[0].clicked === true) return;
     if (nums[0].num === pageNum)
       nums = nums.map((num) => ({ num: num.num - 1 }));
     else nums = nums.map((num) => ({ num: num.num }));
@@ -24,7 +24,7 @@ const PaginationComp = ({
   };
 
   const handleNext = () => {
-    if (nums[4].clicked === true) return;
+    if (nums[4].num === 10 && nums[4].clicked === true) return;
     if (nums[4].num === pageNum)
       nums = nums.map((num) => ({ num: num.num + 1 }));
     else nums = nums.map((num) => ({ num: num.num }));
